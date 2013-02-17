@@ -1,0 +1,112 @@
+body,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,a,img,dl,dt,dd,ol,ul,li,fieldset,form,legend,table,tbody,tfoot,thead,tr,th,td {
+	margin: 0;
+	padding: 0;
+	outline: 0;
+	list-style: none;
+	font-family: DroidSansRegular, Helvetica, Arial, sans-serif;
+}
+
+/* Links */
+a {
+	text-decoration: none;
+	color: #888;
+}
+a:hover {
+	text-decoration: underline;
+}
+
+/* Wrapper */
+#wrapper {
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 0 2%;
+}
+
+/* Header */
+header h1 {
+	border-left: 1px solid #ccc;
+	margin: 1% 0 1% 14%;
+	padding: 3% 0 3% 5%;
+	color: #888;
+}
+header h1 span {
+	color: #000;
+}
+
+/* Article */
+article {
+	float: right;
+	width: 86%;
+	border-left: 1px solid #ccc;
+	margin: 1% 0 1% 0;
+	padding: 0;
+}
+#content {
+	margin: -1% 0 0 1%;
+	border-top: 1px solid #ccc;
+	padding: 3em 5%;
+}
+article p {
+	margin: 2em 0;
+	line-height: 1.8em;
+}
+form p {
+	margin: 0.5em 0;
+}
+
+/* Sidebar */
+nav {
+	float: left;
+	padding: 0 0 2% 0;
+	width: 13%;
+}
+nav ul {
+	padding-top: 4em;
+	border-top: 1px solid #ccc;
+}
+nav li {
+	font-size: 110%;
+}
+nav li a {
+	padding: 10% 0;
+	display: block;
+}
+nav li a:hover {
+	text-decoration: none;
+	color: #000;
+}
+
+/* Footer */
+footer {
+	border-top: 1px solid #ccc;
+	float: left;
+	width: 100%;
+	text-align: center;
+	padding: 2em 0;
+}
+footer p {
+	color: #999;
+	font-size: 80%;
+}
+
+/* Messages */
+.message {
+	border-radius: 10px;
+	margin: 0 0 2em 0;
+	padding: 1em 1.5em;
+}
+.correct-answer {
+	border: 1px dotted #eac0c1;
+	color: #b05255;
+	background: #e8ffe1;
+}
+.incorrect-answer {
+	border: 1px dotted #9dec7a;
+	color: #333;
+	background: #fde7e8;
+}
+.no-answer {
+	border: 1px dotted rgb(230, 219, 85);
+	color: #333;
+	background: rgb(255, 255, 224);
+}
