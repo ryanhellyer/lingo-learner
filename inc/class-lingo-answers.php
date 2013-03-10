@@ -21,14 +21,14 @@ class Lingo_Answers {
 	 */
 	public function __construct(){
 		$this->datetime = current_time( 'mysql' );
-	} //end constructor
+	}
 	
 	/**
 	 * Updates a row in the database
 	 *
 	 * @param int $user_id The user id
 	 * @param int $post_id The post id
-	 * @param bool $answer The answer
+	 * @param bool $answer True or false (if answer is correct or not)
 	 * @return bool false on failure, true if success.
 	 **/
 	public function update_row( $user_id, $post_id, $answer ) {
@@ -69,7 +69,7 @@ class Lingo_Answers {
 			return false;
 		
 		return true;
-	} //end update_question_user_info
+	}
 	
 	/**
 	 * Creates the table for the plugin logs
@@ -103,7 +103,7 @@ class Lingo_Answers {
 		) {$charset_collate};";
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $sql );
-	} // end create_table
+	}
 	
 	/**
 	 * Returns the tablename for the logs
@@ -115,7 +115,23 @@ class Lingo_Answers {
 		global $wpdb;
 		$tablename = $wpdb->prefix . 'answers';
 		return $tablename;
-	} //end get_table_name
+	}
+	
+	/**
+	 * Retrieve ID for an unanswered question for a specific user
+	 *
+	 * @param int $user_id  The user id
+	 * @param int $taxonomy The taxonomy being queried
+	 * @return integer $post_id The ID of the unanswered question
+	 **/
+	public function get_unanswered_question( $user_id, $taxonomy = '' ) {
+		if ( '' == $taxonomy ) {
+			// No taxonomy set, therefore grab first random question from any taxonomy
+		}
+		
+		// COMING SOON!
+		return $post_id;
+	}
 	
 	/**
 	 * Retrieves row info
@@ -127,26 +143,26 @@ class Lingo_Answers {
 	 **/
 	public function get_row_info( $user_id, $post_id ) {
 		global $wpdb;
-
+		
 		// Sanitise integers
 		$user_id = (int) $user_id;
 		$post_id = (int) $post_id;
-
+		
 		// Process query
 		$tablename = $this->get_table_name();
 		$query = "SELECT * FROM {$tablename} WHERE user_id = %d AND post_id = %s";
 		$query = $wpdb->prepare( $query, $user_id, $post_id );
 		$result = $wpdb->get_results( $query, OBJECT );
-
+		
 		// Taking only the most recent result (should probably be done via the query if possible)
 		$number = count( $result );
 		if ( $number > 0 )
 			$result = $result[$number-1];
 		else
 			$result = false;
-
+		
 		return $result;
-	} //end get_row_info
+	}
 	
 	/**
 	 * Inserts a log item into the database
@@ -164,7 +180,7 @@ class Lingo_Answers {
 		$user_id  = (int) $user_id;
 		$post_id  = (int) $post_id;
 		$answer   = (bool) $answer;
-
+		
 		// Perform the DB insert
 		$result = $wpdb->insert(
 			$this->get_table_name(),
@@ -182,13 +198,14 @@ class Lingo_Answers {
 				'%s'
 			)
 		);
-
+		
 		//Check result
 		if ( ! $result )
 			return false;
 		$log_id = (int) $wpdb->insert_id;
 		
 		return true;
-	} //end add_row
+	}
 
 }
+$lingo_answer = new Lingo_Answers;

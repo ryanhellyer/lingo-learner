@@ -1,55 +1,66 @@
 <?php
+
 /*
-Plugin Name: Learn Norwegian
-Plugin URI: http://geek.ryanhellyer.net/
-Description: Learn Norwegian
-Author: ryanhellyer
-Version: 1.0
-Requires at least: 3.6
-Author URI: http://geek.ryanhellyer.net/
-Contributors: ryanhellyer
-*/
+ * Load all includes and features
+ */
+foreach ( glob( __DIR__ . '/inc/*.php' ) as $feature )
+	require( $feature );
 
-define( 'FACEBOOK_APP_ID', '450812854992607' );
-define( 'FACEBOOK_APP_SECRET', '31e259e9e33a182ce0a93e9906708226' );
-
-define( 'TWITTER_CONSUMER_KEY', 'uP3Qan5QgVkLqXuvIf6g' );
-define( 'TWITTER_CONSUMER_SECRET', 'TyFDzZPVnZBfiCHFonDTIfWzqZmCmajZ1OHiwBx2Y' );
-
-require( 'inc/class-lingo-answers.php' );
-register_activation_hook( __FILE__, 'Lingo_Answers::create_table' );
-$lingo_answer = new Lingo_Answers;
-//$random_user_info = $lingo_answer->get_row_info( 1, 325 );
-$lingo_answer->update_row( 8, 425, false );
+//register_activation_hook( __FILE__, 'Lingo_Answers::create_table' );
 //$lingo_answer->create_table();
-//$lingo_answer->add_row( 7, 125, false );
 
+//$random_user_info = $lingo_answer->get_row_info( 8, 425 );
+//print_r( $random_user_info );die;
 
-require( 'inc/class-lingo-questions.php' );
-new Lingo_Questions;
+//$lingo_answer->update_row( 8, 425, false );
 
-require( 'inc/class-lingo-words.php' );
-new Lingo_Words;
+/*
+ * Task #2 --------------
+ * Build get_unanswered_question()
+ *
+ * Task #3 --------------
+ * Calculate question difficulty
+ * 
+ * $user_ranking = User Ranking (1 to 3) - user selects own rank at beginning
+ * $qd = Question difficulty (1 to 3) - defaults to 2
+ * $c1 = array( $days_since_made => $number_correct ) Number of times question has been answered correctly by user rank 1
+ * $c2 = array( $days_since_made => $number_correct ) Number of times question has been answered correctly by user rank 2
+ * $c3 = array( $days_since_made => $number_correct ) Number of times question has been answered correctly by user rank 3
+ * $w1 = array( $days_since_made => $number_correct ) Number of times question has been answered incorrectly by user rank 1
+ * $w2 = array( $days_since_made => $number_correct ) Number of times question has been answered incorrectly by user rank 2
+ * $w3 = array( $days_since_made => $number_correct ) Number of times question has been answered incorrectly by user rank 3
+ * 
+ * $correct = ( 1c1 + 2c2 + 3c3 ) + 1
+ * $wrong = ( 3w1 + 2w2 + 1w3 ) + 1
+ * $qd = 2 * ( $wrong / $correct )
+ *
+ * It would pay to factor into account when the questions were answered. More recent answers
+ * should have more effect. Plus there should be a way to toggle how much effect time has on
+ * the rankings.
+ *
+ * foreach( $c1 as $key => $value ) {
+ * 	
+ * }
+ * $correct = ( ( 1c1t1 +  2c2t1 + 3c3t1 ) + ( 1c1t2 +  2c2t2 + 3c3t2 ) ) / 2
+ * $qd = 2 * ()
+ *
+ * 
+ * Task #4 --------------
+ * Calculate user ranking
+ * 
+ * $user_correct = Number of questions user has answered correctly
+ * $user_wrong = Number of questions user has answered incorrectly
+ *
+ * $user_ranking = 
+ * $uc_1 = Number of times question has been answered correctly by user rank 1
+ * $uc_2 = Number of times question has been answered correctly by user rank 2
+ * $uc_3 = Number of times question has been answered correctly by user rank 3
+ * $uw_1 = Number of times question has been answered incorrectly by user rank 1
+ * $uw_2 = Number of times question has been answered incorrectly by user rank 2
+ * $uw_3 = Number of times question has been answered incorrectly by user rank 3
+ * 
+ */
 
-require( 'inc/class-lingo-simple-admin.php' );
-new Lingo_Simple_Admin;
-
-require( 'inc/class-lingo-process-questions.php' );
-new Lingo_Process_Questions;
-
-//require( 'inc/login.php' );
-//new Eigen_Huis_Login;
-
-if ( isset( $_GET['scrape'] ) )
-	require( 'inc/scraper.php' );
-if ( isset( $_GET['scrape2'] ) )
-	require( 'inc/scraper2.php' );
-if ( isset( $_GET['joiner'] ) )
-	require( 'inc/joiner.php' );
-if ( isset( $_GET['processor'] ) )
-	require( 'inc/processor.php' );
-if ( isset( $_GET['temp'] ) )
-	require( 'inc/temp.php' );
-if ( isset( $_GET['make-questions'] ) )
-	require( 'inc/make-questions.php' );
-
+// Need something which grabs an unanswered question from the questions post-type (preferably
+// with specific taxonomy) which aren't in the answers table for that user.
+//$lingo_answer->get_unanswered_question( $user_id, $taxonomy );

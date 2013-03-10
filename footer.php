@@ -2,20 +2,15 @@
 		</div>
 	</article>
 	
-	<nav>
-		<ul>
-			<li><a href="#">Home</a></li>
-			<li><a href="#">Questions</a></li>
-			<li><a href="#">About</a></li>
-		</ul>
-	</nav>
+	<aside>
+		<?php dynamic_sidebar( 'Sidebar' ); ?>
+	</aside>
 	
 	<footer>
-		<p>Copyright &copy; 2013 Ryan Hellyer</p>
+		<p>Copyright &copy; 2013 <a href="http://geek.ryanhellyer.net/">Ryan Hellyer</a></p>
 	</footer>
 </div>
 
 <?php wp_footer(); ?>
-<!-- Number of queries = <?php echo get_num_queries(); ?>. Time to execute = <?php timer_stop(1); ?> -->
 </body>
 </html>

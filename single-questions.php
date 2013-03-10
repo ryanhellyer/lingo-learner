@@ -7,7 +7,28 @@ if ( have_posts() ) {
 		
 		// Hook for adding messages regarding results of previous question
 		do_action( 'result_message' );
-
+		
+		$user_id = get_current_user_id();
+		if ( $user_id != 0 ) {
+			$answer = $lingo_answer->get_row_info( $user_id, get_the_ID() );
+			if ( isset( $answer->times ) ) {
+				echo '<div class="message previous-answer">';
+				
+				if ( $answer->answer == true ) {
+					$result = 'correctly';
+				} else {
+					$result = 'incorrectly';
+				}
+				
+				$times = (int) $answer->times;
+				
+				$date = $answer->date;
+				$date = date( 'l jS \of F Y', strtotime( $date ) );
+				echo 'You answered this question ' . $result . ' previously on ' . $date . '. You have attempted this question ' . $times . ' times.';
+				echo '</div>';
+			}
+		}
+		
 		?>
 		<h1>
 			<?php _e( 'What is the definition of ', 'lingo' ); ?>
@@ -15,37 +36,57 @@ if ( have_posts() ) {
 			<?php _e( '?', 'lingo' ); ?>
 		</h1>
 		<?php the_content(); ?>
-		<form action="" method="post">
+		<form action="<?php
+			$rand_post = get_posts(
+				array(
+					'numberposts' => 1,
+					'orderby'     => 'rand',
+					'post_type'   => 'questions',
+				)
+			);
+			$rand_post = $rand_post[0];
+			echo get_permalink( $rand_post );
+		?>" method="post">
 			<input type="hidden" name="question_id" value="<?php the_ID(); ?>" /><?php
+			
+			// Grab the fake answers and limit how many are used
 			$_answers = get_post_meta( get_the_ID(), '_wrong_answers' );
-			$_correct_answer = get_post_meta( get_the_ID(), '_correct_answer', true );
-			$_answers[] = $_correct_answer;
+			$_answers = array_chunk( $_answers, 4 );
+			$_answers = $_answers[1];
+			
+			// Add the correct answer as an option
+			$_answers[] = get_post_meta( get_the_ID(), '_correct_answer', true );
+			
+			// Randomising the answer order
 			shuffle( $_answers );
-			$key = 0;
+			
 			if ( is_array( $_answers ) ) {
 				foreach( $_answers as $key => $answer ) {
 					$the_translation = '';
 					$result = get_post( $answer );
 					$_translation = get_post_meta( $result->ID, '_translation' );
-					foreach( $_translation as $key => $trans ) {
+					foreach( $_translation as $key2 => $trans ) {
 						$the_translation .= $trans . ', ';
 					}
 					$the_translation = substr( $the_translation, 0, -2 ); // Removing the last comma
 					echo '
-					<p>
-						<input name="answer" type="radio" value="' . $result->ID . '" />
-						<label for="answer">' . esc_html( $the_translation ) . '</label>
-					</p>';
+			<p>
+				<input id="answer-' . $key . '" name="answer" type="radio" value="' . $result->ID . '"  onClick="this.form.submit()" />
+				<label for="answer-' . $key . '">' . esc_html( $the_translation ) . '</label>
+			</p>';
 				}
 			} else {
 				_e( 'Woops! It seems we have a problem. Some silly Billy forgot to add wrong answers to this question.', 'lingo' );
 			}
+			
 			?>
-			<p>
-				<input name="submit" value="Submit" type="submit" />
-			</p>
-		</form>
-		<?php
+			<noscript>
+				<p>
+					<input name="submit" value="Submit" type="submit" />
+				</p>
+			</noscript>
+		</form><?php
+		
 		echo get_the_term_list( get_the_ID(), 'difficulty', '<p>' . __( 'Difficulty level: ', 'lingo' ), ', ', '</p>' );
 	}
 }

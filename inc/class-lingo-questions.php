@@ -51,8 +51,8 @@ class Lingo_Questions {
 			'difficulty',
 			'questions',
 			array(
-				'hierarchical' => true,
-				'label'        => __( 'Difficulty', 'lingo' ),
+				'hierarchical'  => false,
+				'label'         => __( 'Difficulty', 'lingo' ),
 				'singular_name' => __( 'Difficulty level', 'lingo' ),
 			)
 		);
@@ -66,8 +66,8 @@ class Lingo_Questions {
 			'question_type',
 			'questions',
 			array(
-				'hierarchical' => true,
-				'label'        => __( 'Question type', 'lingo' ),
+				'hierarchical'  => true,
+				'label'         => __( 'Question type', 'lingo' ),
 				'singular_name' => __( 'Question type level', 'lingo' ),
 			)
 		);
@@ -89,7 +89,7 @@ class Lingo_Questions {
 			'side',
 			'high'
 		);
-
+		
 		add_meta_box(
 			'Answers',
 			'Answers',
@@ -126,8 +126,6 @@ class Lingo_Questions {
 			<input type="text" name="' . $key . '" id="' . $key . '" value="' . get_post_meta( $post_ID, $key, true ) . '" />
 		</p>';
 		}
-		?>
-		<?php
 	}
 	
 	/**
@@ -192,9 +190,7 @@ class Lingo_Questions {
 					$value = (int) $value;
 					add_post_meta( $post_ID, '_wrong_answers', $value );
 				}
-			}
-			
-			
+			}			
 			
 			// Stash all the post meta
 			foreach( $this->post_meta as $key => $x ) {
@@ -208,3 +204,4 @@ class Lingo_Questions {
 	}
 
 }
+new Lingo_Questions;

@@ -1,8 +1,6 @@
 <?php
-define( 'FACEBOOK_APP_ID', '450812854992607' );
-define( 'FACEBOOK_APP_SECRET', '31e259e9e33a182ce0a93e9906708226' );
 
-class Lingo_Login {
+class Eigen_Huis_Login {
 
 	/**
 	 * Constructor
@@ -77,7 +75,7 @@ class Lingo_Login {
 
 		if ( untrailingslashit( parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH) ) === site_url( 'login/facebook', 'relative' ) ) {
 			if( defined('FACEBOOK_APP_ID') && defined('FACEBOOK_APP_SECRET') ) {
-				require 'lib/facebook/facebook.php';
+				require 'facebook/facebook.php';
 
 				$facebook = new Facebook( array(
 					'appId'  => FACEBOOK_APP_ID,
@@ -134,7 +132,7 @@ class Lingo_Login {
 
 		if ( untrailingslashit( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) ) === site_url( 'login/twitter', 'relative' ) ) {
 			if( defined('TWITTER_CONSUMER_KEY') && defined('TWITTER_CONSUMER_SECRET') ) {
-				require '/lib/twitter/twitteroauth.php';
+				require 'twitter/twitteroauth.php';
 
 				if ( ! empty( $_GET['oauth_verifier'] ) && ! empty( $_COOKIE['oauth_token'] ) && ! empty( $_COOKIE['oauth_token_secret'] ) ) {
 					$twitteroauth = new TwitterOAuth( TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, $_COOKIE['oauth_token'], $_COOKIE['oauth_token_secret'] );
@@ -200,4 +198,3 @@ class Lingo_Login {
 		}
 	}
 }
-new Lingo_Login;

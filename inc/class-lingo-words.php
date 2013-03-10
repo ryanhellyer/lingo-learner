@@ -104,3 +104,4 @@ class Lingo_Words {
 	}
 
 }
+new Lingo_Words;

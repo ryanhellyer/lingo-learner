@@ -104,4 +104,5 @@ class Lingo_Simple_Admin {
 	}
 
 }
+new Lingo_Simple_Admin;
 
