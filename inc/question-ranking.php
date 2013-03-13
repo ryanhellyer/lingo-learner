@@ -1,245 +1,10 @@
 <?php
 // BROKEN TEST VERSION IS AT /STORED/USER-RANKING.PHP
 
-
-$user_ranking_data = array(
-	0 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-	),
-	1 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-	),
-	2 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-	),
-	3 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-	),
-	4 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 100,
-		),
-	),
-	5 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 100,
-		),
-	),
-	6 => array( // Batch 2
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 100,
-		),
-	),
-	7 => array( // Batch 3
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 9,
-			'correct'   => 17,
-		),
-	),
-);
-
-
-
-
-
-$user_ranking_data = array(
-	0 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-	),
-	1 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-	),
-	2 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 95,
-			'correct'   => 5,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-	),
-	3 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 70,
-			'correct'   => 20,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 10,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-	),
-	4 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 35,
-			'correct'   => 5,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 30,
-			'correct'   => 30,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-	),
-	5 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 5,
-			'correct'   => 35,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 50,
-			'correct'   => 10,
-		),
-	),
-	6 => array( // Batch 2
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 2,
-			'correct'   => 98,
-		),
-	),
-	7 => array( // Batch 3
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 9,
-			'correct'   => 17,
-		),
-	),
-);
-
-
-
+require( 'ranking-data.php' );
 define( 'NUMBER_DIFFICULTY_LEVELS', '3' );
 define( 'NUMBER_BATCHES_TO_PROCESS', '3' );
+define( 'MINIMUM_LEVEL_COUNT_PER_BATCH', '5' );
 $user_ranking = get_user_ranking( $user_ranking_data );
 echo 'User ranking: ' . $user_ranking . '<br />';
 
@@ -294,27 +59,42 @@ function process_specific_batch( $batch_data ) {
 		$summed_results = $result['incorrect'] + $result['correct'];
 		
 		// Proportion of correct answers
-		if ( 0 == $summed_results ) {
-			$level_ranking[$difficulty] = 0;
-		} else {
+		if ( MINIMUM_LEVEL_COUNT_PER_BATCH < $summed_results ) {
 			$level_ranking[$difficulty] = ( $result['correct'] / $summed_results );
 		}
 		
 	}
 	
 	/*
+	 * If difficulty level is empty, then fill it with result from a higher level
+	 */
+	$difficulty = NUMBER_DIFFICULTY_LEVELS;
+	while( $difficulty > 0 ) {
+		if ( isset( $level_ranking[$difficulty] ) ) {
+			$latest_ranking = $level_ranking[$difficulty];
+		} elseif ( isset( $latest_ranking ) ) {
+			$level_ranking[$difficulty] = $latest_ranking;
+		}
+		$difficulty = $difficulty - 1;
+	}
+
+	/*
 	 * Calculate the ranking
 	 * Ranking based on answering higher levels having greater effect on ranking
 	 */
-	$level = 0;
+	$difficulty = 0;
+	$division = 0;
 	$batch_ranking = 0;
-	while( $level < NUMBER_DIFFICULTY_LEVELS ) {
-		$level++;
-		if ( isset( $level_ranking[$level] ) ) {
-			$batch_ranking = $batch_ranking + $level * $level_ranking[$level];
+	while( $difficulty < NUMBER_DIFFICULTY_LEVELS ) {
+		$difficulty++;
+		if ( isset( $level_ranking[$difficulty] ) ) {
+			$batch_ranking = $batch_ranking + $difficulty * $level_ranking[$difficulty];
+		} else {
+			
 		}
+		$division = $division + $difficulty;
 	}
-	$batch_ranking = $batch_ranking / $level;
+	$batch_ranking = $batch_ranking / ( $division );
 	
 	return $batch_ranking;
 }
