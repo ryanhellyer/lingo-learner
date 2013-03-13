@@ -61,8 +61,8 @@ $user_ranking_data = array(
 	),
 	4 => array( // Batch 1
 		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
+			'incorrect' => 98,
+			'correct'   => 2,
 		),
 		2 => array( // Difficulty level 2
 			'incorrect' => 0,
@@ -70,13 +70,13 @@ $user_ranking_data = array(
 		),
 		3 => array( // Difficulty level 3
 			'incorrect' => 0,
-			'correct'   => 100,
+			'correct'   => 0,
 		),
 	),
 	5 => array( // Batch 1
 		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
+			'incorrect' => 90,
+			'correct'   => 10,
 		),
 		2 => array( // Difficulty level 2
 			'incorrect' => 0,
@@ -84,140 +84,21 @@ $user_ranking_data = array(
 		),
 		3 => array( // Difficulty level 3
 			'incorrect' => 0,
-			'correct'   => 100,
+			'correct'   => 0,
 		),
 	),
 	6 => array( // Batch 2
 		1 => array( // Difficulty level 1
 			'incorrect' => 0,
-			'correct'   => 0,
+			'correct'   => 35,
 		),
 		2 => array( // Difficulty level 2
 			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 100,
-		),
-	),
-	7 => array( // Batch 3
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 9,
-			'correct'   => 17,
-		),
-	),
-);
-
-
-
-
-
-$user_ranking_data = array(
-	0 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-	),
-	1 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-	),
-	2 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 95,
-			'correct'   => 5,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-	),
-	3 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 70,
-			'correct'   => 20,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 10,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-	),
-	4 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 35,
-			'correct'   => 5,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 30,
-			'correct'   => 30,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-	),
-	5 => array( // Batch 1
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 5,
 			'correct'   => 35,
 		),
 		3 => array( // Difficulty level 3
-			'incorrect' => 50,
-			'correct'   => 10,
-		),
-	),
-	6 => array( // Batch 2
-		1 => array( // Difficulty level 1
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		2 => array( // Difficulty level 2
-			'incorrect' => 0,
-			'correct'   => 0,
-		),
-		3 => array( // Difficulty level 3
-			'incorrect' => 2,
-			'correct'   => 98,
+			'incorrect' => 1,
+			'correct'   => 9,
 		),
 	),
 	7 => array( // Batch 3
@@ -237,9 +118,6 @@ $user_ranking_data = array(
 );
 
 
-
-define( 'NUMBER_DIFFICULTY_LEVELS', '3' );
-define( 'NUMBER_BATCHES_TO_PROCESS', '3' );
 $user_ranking = get_user_ranking( $user_ranking_data );
 echo 'User ranking: ' . $user_ranking . '<br />';
 
@@ -261,11 +139,11 @@ function get_user_ranking( $user_ranking_data ) {
 	foreach( $user_ranking_data as $batch_number => $batch_data ) {
 		
 		// We only care about the most recent three batches
-		if ( $batch_number < ( $number_of_batches - NUMBER_BATCHES_TO_PROCESS ) )
+		if ( $batch_number < ( $number_of_batches - 3 ) )
 			continue;
 		
 		// We don't care about the most recent batch
-		if ( $batch_number == ( $number_of_batches - 1 ) )
+		if ( $batch_number > ( $number_of_batches - 2 ) )
 			continue;
 		
 		// Process each specific batch of data
@@ -275,7 +153,7 @@ function get_user_ranking( $user_ranking_data ) {
 		$number = 1 / ( $number_of_batches - $batch_number - 1 );
 		$user_ranking = $user_ranking + ( $number * $batch_ranking );
 	}
-	$user_ranking = $user_ranking / ( NUMBER_BATCHES_TO_PROCESS / 2 ); // Adjustment for batch rankings
+	$user_ranking = $user_ranking / 1.5; // Adjustment for batch rankings
 	
 	return $user_ranking;
 }
@@ -284,6 +162,7 @@ function get_user_ranking( $user_ranking_data ) {
  * Iterate through each difficulty level
  */
 function process_specific_batch( $batch_data ) {
+	$total_results = 0;
 	
 	/*
 	 * Iterate through each difficulty level
@@ -292,6 +171,7 @@ function process_specific_batch( $batch_data ) {
 		
 		// All results
 		$summed_results = $result['incorrect'] + $result['correct'];
+		$total_results = $summed_results + $total_results;
 		
 		// Proportion of correct answers
 		if ( 0 == $summed_results ) {
@@ -302,19 +182,7 @@ function process_specific_batch( $batch_data ) {
 		
 	}
 	
-	/*
-	 * Calculate the ranking
-	 * Ranking based on answering higher levels having greater effect on ranking
-	 */
-	$level = 0;
-	$batch_ranking = 0;
-	while( $level < NUMBER_DIFFICULTY_LEVELS ) {
-		$level++;
-		if ( isset( $level_ranking[$level] ) ) {
-			$batch_ranking = $batch_ranking + $level * $level_ranking[$level];
-		}
-	}
-	$batch_ranking = $batch_ranking / $level;
+	$batch_ranking = ( $level_ranking[1] + 2 * $level_ranking[2]  + 3 * $level_ranking[3] ) / 6;
 	
 	return $batch_ranking;
 }
