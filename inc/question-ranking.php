@@ -1,103 +1,33 @@
 <?php
-// BROKEN TEST VERSION IS AT /STORED/USER-RANKING.PHP
+return;
+$results = array(
+	1  => 2,
+	2  => 3,
+	3  => 5,
+	4  => 7,
+	5  => 9,
+	6  => 15,
+	7  => 25,
+	8  => 35,
+	9  => 45,
+	10 => 55,
+);
+print_r( $results );
 
-require( 'ranking-data.php' );
-define( 'NUMBER_DIFFICULTY_LEVELS', '3' );
-define( 'NUMBER_BATCHES_TO_PROCESS', '3' );
-define( 'MINIMUM_LEVEL_COUNT_PER_BATCH', '5' );
-$user_ranking = get_user_ranking( $user_ranking_data );
-echo 'User ranking: ' . $user_ranking . '<br />';
+$user_ranking = '0.3';
+$user_ranking = (int) ( $user_ranking * 10 );
+$correct = true;
 
-
-/*
- * Get the users ranking
- *
- * @param array $user_ranking_data Contains complete stored information on users previous results
- * @return numerical $user_ranking The users ranking value from 0 to 1
- */
-function get_user_ranking( $user_ranking_data ) {
-	$number_of_batches = count( $user_ranking_data );
-	$user_ranking = 0;
-	
-	/*
-	 * Iterate through each batch of data
-	 * Older batches can be ignored, newer ones are more important
-	 */
-	foreach( $user_ranking_data as $batch_number => $batch_data ) {
-		
-		// We only care about the most recent three batches
-		if ( $batch_number < ( $number_of_batches - NUMBER_BATCHES_TO_PROCESS ) )
-			continue;
-		
-		// We don't care about the most recent batch
-		if ( $batch_number == ( $number_of_batches - 1 ) )
-			continue;
-		
-		// Process each specific batch of data
-		$batch_ranking = process_specific_batch( $batch_data );
-		
-		// Ensuring older rankings have less effect
-		$number = 1 / ( $number_of_batches - $batch_number - 1 );
-		$user_ranking = $user_ranking + ( $number * $batch_ranking );
-	}
-	$user_ranking = $user_ranking / ( NUMBER_BATCHES_TO_PROCESS / 2 ); // Adjustment for batch rankings
-	
-	return $user_ranking;
+if ( $correct == true ) {
+	$results[$user_ranking] = $results[$user_ranking] + 1;
+} else {
+	$results[$user_ranking]--;
 }
 
-/*
- * Iterate through each difficulty level
- */
-function process_specific_batch( $batch_data ) {
-	
-	/*
-	 * Iterate through each difficulty level
-	 */
-	foreach( $batch_data as $difficulty => $result ) {
-		
-		// All results
-		$summed_results = $result['incorrect'] + $result['correct'];
-		
-		// Proportion of correct answers
-		if ( MINIMUM_LEVEL_COUNT_PER_BATCH < $summed_results ) {
-			$level_ranking[$difficulty] = ( $result['correct'] / $summed_results );
-		}
-		
-	}
-	
-	/*
-	 * If difficulty level is empty, then fill it with result from a higher level
-	 */
-	$difficulty = NUMBER_DIFFICULTY_LEVELS;
-	while( $difficulty > 0 ) {
-		if ( isset( $level_ranking[$difficulty] ) ) {
-			$latest_ranking = $level_ranking[$difficulty];
-		} elseif ( isset( $latest_ranking ) ) {
-			$level_ranking[$difficulty] = $latest_ranking;
-		}
-		$difficulty = $difficulty - 1;
-	}
+echo $user_ranking . '<hr />';
 
-	/*
-	 * Calculate the ranking
-	 * Ranking based on answering higher levels having greater effect on ranking
-	 */
-	$difficulty = 0;
-	$division = 0;
-	$batch_ranking = 0;
-	while( $difficulty < NUMBER_DIFFICULTY_LEVELS ) {
-		$difficulty++;
-		if ( isset( $level_ranking[$difficulty] ) ) {
-			$batch_ranking = $batch_ranking + $difficulty * $level_ranking[$difficulty];
-		} else {
-			
-		}
-		$division = $division + $difficulty;
-	}
-	$batch_ranking = $batch_ranking / ( $division );
-	
-	return $batch_ranking;
-}
+print_r( $results );
 
+echo $user_ranking . '<hr />';
+die;
 
-die( '<br /><br />DONE');

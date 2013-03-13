@@ -52,26 +52,99 @@ class Lingo_Process_Questions {
 		}
 	}
 	
+	private function _get_user_ranking( $user_id ) {
+		return 0.3;
+	}
+	
 	/*
 	 * Update the question difficulty
 	 *
-	 * NOTE: CURRENTLY VERY CRUDE AND HAS POOR LOGIC
+	 * This does not pull the raw data from the database and instead stores a simplified
+	 * array of results via post meta. This is done to avoid killing the database via
+	 * extensive querying.
+	 *
+	 * Results are stored for each level of user who has attempted.
+	 * Difficulty level is used by checking the ratios of correct to incorrect for each
+	 * user level and assigning the highest rank possible based on those results.
 	 */
 	private function _update_question_difficulty( $user_id, $question_id, $answer ) {
+		
+		/*
+		 * Grab and sanitise previous results
+		 */
+		$results = get_post_meta( $question_id, '_previous_results', true );
+		$count = 1;
+		
+		/*
+		 * Grab, modify and store results
+		 */
+		$user_ranking = $this->_get_user_ranking( $user_id );
+		$user_ranking = (int) ( $user_ranking * 10 );
+		if ( ! isset( $results[$user_ranking] ) )
+			$results[$user_ranking] = array( 'correct' => 0, 'incorrect' => 0, );
+		$new_result = $results[$user_ranking];
+		if ( true == $answer ) {
+			$new_result['correct']++;
+		} else {
+			$new_result['incorrect']++;
+		}
+		
+		// If numbers get high, then shrink them (makes sure that only current data is used)
+		$sum = $new_result['correct'] + $new_result['incorrect'];
+		if ( $sum > 10 ) {
+			$new_result['correct']   = (int) $new_result['correct']   / 2;
+			$new_result['incorrect'] = (int) $new_result['incorrect'] / 2;
+		}
+		
+		// Store the result
+		$results[$user_ranking] = $new_result;
+		update_post_meta( $question_id, '_previous_results', $results );
+		
+		/*
+		 * Calculate new difficulty level for question
+		 * Iterates through each level and checks historic records.
+		 * Difficulty level is set based on the highest level of users who have answered it correctly
+		 */
+		
+		// In case no one has managed to answer this question, we'll set it's default to the current users level + 1
+		$new_difficulty = $user_ranking + 1;
+		if ( $new_difficulty > 10 ) { // Maximum difficulty level is 10
+			$new_difficulty = 10;
+		}
+		
+		// Iterate through and grab historic records
+		$counter = 10;
+		while( $counter > 0 ) {
+			$counter--;
+			
+			if ( isset( $results[$counter] ) ) {
+				$user_difficulty = $results[$counter];
+				
+				// Calculate the proportion of times question answered correctly by users at this level
+				$sum = $user_difficulty['correct'] + $user_difficulty['incorrect'];
+				
+				// Only set difficulty if someone has answered at that level
+				if ( $sum != 0 )
+					$difficulty = $user_difficulty['correct'] / $sum;
+				
+				// If over half the people answered it, then set this as the new difficulty level
+				if ( $difficulty > 0.6 ) {
+					$new_difficulty = $counter;
+				}
+			}
+		}
+		
+		/*
 		$term_list = wp_get_post_terms( $question_id, 'difficulty', array( 'fields' => 'all' ) );
 		if ( isset( $term_list[0] ) ) {
 			$term_list = $term_list[0];
 			$current_difficulty = $term_list->term_id;
-			if ( true == $answer ) {
-				$new_difficulty = $current_difficulty + 1;
-			} else {
-				$new_difficulty = $current_difficulty - 1;
-			}
 		} else {
-			$new_difficulty = 50;
+			$new_difficulty = 5; // If no difficulty set, then default to 5
 		}
-		$new_difficulty = (string) $new_difficulty;
-		$return = wp_set_object_terms( $question_id, $new_difficulty, 'difficulty' );
+		*/
+		$new_difficulty = (string) $new_difficulty; // Needs cast as string before becoming taxonomy
+		wp_set_object_terms( $question_id, $new_difficulty, 'difficulty' );
 	}
 	
 	/*
@@ -145,7 +218,7 @@ class Lingo_Process_Questions {
 	}
 	
 	/*
-	 * Get translation of question answer
+	 * Get translation of word
 	 */
 	private function _get_answer( $question_id ) {
 		$question_id = (int) $question_id;
@@ -160,5 +233,6 @@ class Lingo_Process_Questions {
 		
 		return $the_translation;
 	}
+	
 }
 new Lingo_Process_Questions;
