@@ -30,7 +30,7 @@ class Lingo_Questions {
 			'_prefektum'  => __( 'Prefektum',  'lingo' ),
 		);
 		
-	} //end constructor
+	}
 	
 	/**
 	 * Register the post-type

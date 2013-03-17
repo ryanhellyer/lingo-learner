@@ -33,16 +33,30 @@ if ( have_posts() ) {
 		$question_type = wp_get_post_terms( get_the_ID(), 'question_type', array("fields" => "names") );
 		if ( in_array( 'Pronomen', $question_type ) ) {
 			$question_type = 'Pronomen';
+		} elseif ( in_array( 'Translation', $question_type ) ) {
+			$question_type = 'Translation';
 		} else {
-			echo 'WRONG TYPE';
 			$question_type = 'Translation';
 		}
+		
+		if ( 'Translation' == $question_type ) {
+		?>
+		<h1>
+			<?php _e( 'What is the definition of ', 'lingo' ); ?>
+			"<?php the_title(); ?>"
+			<?php _e( '?', 'lingo' ); ?>
+		</h1>
+		<?php the_content(); ?>
+		<?php }
 
+		if ( 'Pronomen' == $question_type ) {
 		?>
 		<h1>
 			<?php _e( 'Match the pronomen to their corresponding words', 'lingo' ); ?>
 		</h1>
 		<?php the_content(); ?>
+		<?php } ?>
+
 
 		<form action="<?php
 			$rand_post = get_posts(
@@ -57,46 +71,41 @@ if ( have_posts() ) {
 			echo get_permalink( $rand_post );
 		?>" method="post">
 			<input type="hidden" name="question_id" value="<?php the_ID(); ?>" /><?php
-
-				$pronomen_types = array(
-					'_infinitiv'  => __( 'Infinitive', 'lingo' ),
-					'_presens'    => __( 'Presens', 'lingo' ),
-					'_preteritum' => __( 'Preteritum', 'lingo' ),
-					'_prefektum'  => __( 'Prefektum', 'lingo' ),
-				);
-				$pronomen_types = array(
-					'_infinitiv',
-					'_presens',
-					'_preteritum',
-					'_prefektum',
-				);
-				shuffle( $pronomen_types );
-//				print_r( $pronomen_types );
-//				die;
-				foreach( $pronomen_types as $key => $value ) {
-					$pronomen[$key]  = get_post( get_post_meta( get_the_ID(), $key, true ) );
-				}
-				shuffle( $pronomen );
-				print_r( $pronomen );
-die;
-				echo '
-				<p>
-					<label>' . $value . '</label>
-					<select>';
-					foreach( $pronomen as $key2 => $value2 ) {
-						echo '<option value="' . $pronomen[$key2]->post_title . '">' . $pronomen[$key2]->post_title . '</option>';
-					}
-					echo '</select>
-				</p>';
-//					<?php
-//					echo '<br />'.$value . ' : ' . $pronomen[$key]->post_title . '<br />';
+			
+			
+			if ( 'Translation' == $question_type ) {
+			
+				// Grab the fake answers and limit how many are used
+				$_answers = get_post_meta( get_the_ID(), '_wrong_answers' );
+				$_answers = array_chunk( $_answers, 4 );
+				$_answers = $_answers[1];
 				
+				// Add the correct answer as an option
+				$_answers[] = get_post_meta( get_the_ID(), '_correct_answer', true );
 				
-				echo '
+				// Randomising the answer order
+				shuffle( $_answers );
+				
+				if ( is_array( $_answers ) ) {
+					foreach( $_answers as $key => $answer ) {
+						$the_translation = '';
+						$result = get_post( $answer );
+						$_translation = get_post_meta( $result->ID, '_translation' );
+						foreach( $_translation as $key2 => $trans ) {
+							$the_translation .= $trans . ', ';
+						}
+						$the_translation = substr( $the_translation, 0, -2 ); // Removing the last comma
+						echo '
 				<p>
 					<input id="answer-' . $key . '" name="answer" type="radio" value="' . $result->ID . '"  onClick="this.form.submit()" />
 					<label for="answer-' . $key . '">' . esc_html( $the_translation ) . '</label>
 				</p>';
+					}
+
+				}
+			} else {
+				_e( 'Woops! It seems we have a problem. Some silly Billy forgot to add wrong answers to this question.', 'lingo' );
+			}
 			
 			?>
 			<noscript>
@@ -111,3 +120,10 @@ die;
 }
 
 get_footer();
+
+/*
+$terms = get_the_terms( get_the_ID(), 'question_type' );
+foreach ( $terms as $question_type ) {
+	$question_type = $question_type->name;
+}
+*/
